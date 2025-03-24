@@ -18,15 +18,15 @@ enum class Currency {
 }
 
 @Entity
-class Transaction {
+class Transaction(
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: Long? = null
-    var amount: Double = 0.0
-    var currency: Currency = Currency.ARS
-    var date: LocalDate = LocalDate.now()
-    var type: TransactionType = TransactionType.EXPENSE
+    var id: Long? = null,
+    var amount: Double = 0.0,
+    var currency: Currency = Currency.ARS,
+    var date: LocalDate = LocalDate.now(),
+    var type: TransactionType = TransactionType.EXPENSE,
     @ManyToOne
     @JoinColumn(name = "account_id")
     var account: Account? = null
-}
+)
 
