@@ -21,6 +21,17 @@ class TransactionMapper(
     }
 
     private fun Long.toAccount() = accountService.findAccount(this) ?: throw AccountNotFoundException(this.toString())
+
+    fun mapToDto(transaction: Transaction) = with(transaction) {
+        TransactionDTO(
+            id = id!!,
+            amount = amount,
+            currency = currency.toString(),
+            date = date,
+            type = type.toString(),
+            accountId = account?.id!!
+        )
+    }
 }
 
 class AccountNotFoundException(message: String) : RuntimeException("Account not found: $message")
