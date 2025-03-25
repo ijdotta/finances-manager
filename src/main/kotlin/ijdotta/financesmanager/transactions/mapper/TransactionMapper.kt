@@ -5,24 +5,26 @@ import ijdotta.financesmanager.transactions.dto.TransactionDTO
 import ijdotta.financesmanager.transactions.model.Transaction
 import ijdotta.financesmanager.transactions.model.Currency
 import ijdotta.financesmanager.transactions.model.TransactionType
+import org.springframework.stereotype.Component
 
+@Component
 class TransactionMapper(
     private val accountService: AccountService,
 ) {
-    fun mapToEntity(transaction: TransactionDTO) = with(transaction) {
+    fun toEntity(transaction: TransactionDTO) = with(transaction) {
         Transaction(
-            id = id,
-            amount = amount,
-            currency = currency.toCurrency(),
-            date = date,
-            type = type.toType(),
-            account = accountId.toAccount()
+            id = id!!,
+            amount = amount!!,
+            currency = currency!!.toCurrency(),
+            date = date!!,
+            type = type!!.toType(),
+            account = accountId!!.toAccount()
         )
     }
 
     private fun Long.toAccount() = accountService.findAccount(this) ?: throw AccountNotFoundException(this.toString())
 
-    fun mapToDto(transaction: Transaction) = with(transaction) {
+    fun toDTO(transaction: Transaction) = with(transaction) {
         TransactionDTO(
             id = id!!,
             amount = amount,
